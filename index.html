@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RE-GROUND — Program</title>
+<link rel="icon" href="assets/star.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  @font-face{
+    font-family: 'OTR';
+    src: url('fonts/OTRtype-Regular.woff') format('woff');
+    font-weight: 400;
+    font-display: swap;
+  }
+
+  :root{
+    --blue:       #9AD0F5;
+    --blue-soft:  #B8E0FA;
+    --blue-deep:  #6FB8ED;
+    --purple:     #5A0FF3;
+    --red:        #FF1400;
+    --red-text:   #A80D00;
+    --ink:        #1E0A52;
+    --ink-60:     rgba(30,10,82,0.62);
+    --ink-30:     rgba(30,10,82,0.28);
+  }
+
+  * { box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    padding:0;
+    background: var(--blue);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    cursor: url("assets/cursor.png") 13 13, auto;
+  }
+
+  a, summary, label, [data-clickable]{
+    cursor: pointer;
+  }
+
+  ::selection{
+    background: var(--purple);
+    color: var(--blue);
+  }
+
+  .wrap{
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 56px 24px 72px;
+  }
+
+  /* ---------- HERO ---------- */
+
+  .hero{
+    padding: 0 0 8px;
+  }
+
+  .eyebrow{
+    font-family: 'OTR', monospace;
+    color: var(--purple);
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    margin: 0 0 18px;
+  }
+
+  .title{
+    font-family: 'OTR', monospace;
+    font-weight: 400;
+    font-size: clamp(46px, 11vw, 84px);
+    line-height: 0.92;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: 0.005em;
+  }
+  .title .accent{
+    color: var(--red-text);
+  }
+
+  .meta-row{
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .meta-dates{
+    font-family: 'OTR', monospace;
+    color: var(--purple);
+    font-size: 22px;
+  }
+  .meta-star{
+    width: 26px;
+    height: 26px;
+    display: inline-block;
+    background: url("assets/star.png") center / contain no-repeat;
+    flex-shrink: 0;
+  }
+  .meta-loc{
+    font-family: 'OTR', monospace;
+    color: var(--purple);
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  .meta-loc span{
+    display:block;
+    font-family:'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--ink-60);
+  }
+
+  /* ---------- INTRO ---------- */
+
+  .intro{
+    padding: 40px 0 0;
+    border-top: 2px solid var(--ink);
+    margin-top: 40px;
+  }
+  .intro h2{
+    font-family: 'OTR', monospace;
+    font-weight: 400;
+    font-size: 19px;
+    color: var(--ink);
+    margin: 22px 0 16px;
+  }
+  .intro p{
+    font-size: 16px;
+    line-height: 1.65;
+    margin: 0 0 14px;
+    max-width: 58ch;
+    color: var(--ink);
+  }
+
+  /* ---------- PROGRAM ---------- */
+
+  .program-heading{
+    font-family:'OTR', monospace;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    margin: 52px 0 4px;
+  }
+  .program-sub{
+    font-size: 14.5px;
+    color: var(--ink-60);
+    margin: 0 0 18px;
+  }
+
+  .accordion{
+    border-top: 2px solid var(--ink);
+  }
+
+  details{
+    border-bottom: 2px solid var(--ink);
+  }
+
+  details[open] summary ~ *{
+    animation: reveal .18s ease;
+  }
+  @keyframes reveal{
+    from{ opacity: 0; transform: translateY(-4px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+
+  summary{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 2px;
+    font-family: 'OTR', monospace;
+    font-size: clamp(16px, 3vw, 21px);
+    color: var(--ink);
+    user-select: none;
+  }
+  summary::-webkit-details-marker{ display:none; }
+
+  .row-left{
+    display:flex;
+    align-items:baseline;
+    gap: 14px;
+  }
+  .row-tag{
+    font-family:'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 11.5px;
+    color: var(--blue);
+    background: var(--purple);
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+
+  .toggle{
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .toggle::before, .toggle::after{
+    content:"";
+    position:absolute;
+    background: var(--purple);
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 2px;
+  }
+  .toggle::before{ width: 17px; height: 3px; }
+  .toggle::after{ width: 3px; height: 17px; transition: transform .22s ease; }
+  details[open] .toggle::after{ transform: translate(-50%,-50%) rotate(90deg); }
+  details[open] .toggle::before{ background: var(--red-text); }
+  details[open] .toggle::after{ background: var(--red-text); }
+
+  .panel{
+    padding: 6px 2px 32px 2px;
+  }
+
+  .panel-intro{
+    font-size: 14.5px;
+    color: var(--ink-60);
+    margin: 0 0 20px;
+    max-width: 58ch;
+  }
+
+  .day-block + .day-block{
+    margin-top: 24px;
+  }
+
+  .day-label{
+    font-family:'OTR', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--red-text);
+    margin: 0 0 10px;
+  }
+
+  .entry{
+    display: grid;
+    grid-template-columns: 104px 1fr;
+    gap: 14px;
+    padding: 11px 0;
+    border-top: 1px solid var(--ink-30);
+  }
+  .entry:first-of-type{ border-top: none; }
+
+  .entry-time{
+    font-family:'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 12.5px;
+    color: var(--purple);
+    padding-top: 1px;
+  }
+  .entry-body h4{
+    margin: 0 0 4px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .entry-body p{
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-60);
+  }
+  .entry-body .place{
+    display:block;
+    margin-top: 4px;
+    font-size: 12.5px;
+    color: var(--ink-60);
+    font-style: italic;
+  }
+
+  .film{
+    padding: 15px 0;
+    border-top: 1px solid var(--ink-30);
+  }
+  .film:first-of-type{ border-top:none; }
+  .film h4{
+    margin: 0 0 6px;
+    font-family:'OTR', monospace;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .film p{
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-60);
+    max-width: 60ch;
+  }
+
+  /* ---------- FOOTER ---------- */
+
+  footer{
+    margin-top: 60px;
+  }
+
+  .social{
+    display:flex;
+    justify-content:center;
+    gap: 22px;
+    padding-bottom: 40px;
+  }
+  .social a{
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color: var(--ink);
+    transition: background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .social a:hover{
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--blue);
+  }
+  .social svg{ width: 19px; height: 19px; fill: currentColor; }
+
+  .logos{
+    border-top: 2px solid var(--ink);
+    padding-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 34px 30px;
+  }
+  .logos img{
+    height: 26px;
+    width: auto;
+    display: block;
+  }
+  .logos img.tall{ height: 34px; }
+
+  @media (max-width: 480px){
+    .entry{ grid-template-columns: 1fr; gap: 2px; }
+    .entry-time{ font-size: 12px; }
+    .logos{ gap: 26px 22px; }
+    .logos img{ height: 20px; }
+    .logos img.tall{ height: 26px; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <section class="hero">
+    <p class="eyebrow">Seeds, Soil &amp; Solidarity</p>
+    <h1 class="title">RE-<span class="accent">GROUND</span></h1>
+    <div class="meta-row">
+      <span class="meta-dates">25&nbsp;-&nbsp;27 September</span>
+      <span class="meta-star" aria-hidden="true"></span>
+      <span class="meta-loc">Tunis<span>44.46 Niger Street</span></span>
+    </div>
+  </section>
+
+  <section class="intro">
+    <h2>Restoring lands, sharing knowledge, reclaiming real food.</h2>
+    <p>On September 25, 26, and 27, we're coming together for three days centered on food sovereignty, farmer-saved seeds, and agroecology.</p>
+    <p>A local producers' market, documentary screenings, talks with experts from the region, and hands-on workshops &mdash; an event open to everyone, to rethink together our relationship with the land and with food.</p>
+  </section>
+
+  <p class="program-heading">FULL PROGRAM</p>
+  <p class="program-sub">Tap a line to see the details.</p>
+
+  <div class="accordion">
+
+    <!-- FARMERS MARKET -->
+    <details name="prog">
+      <summary>
+        <span class="row-left">Farmers Market<span class="row-tag">All weekend</span></span>
+        <span class="toggle"></span>
+      </summary>
+      <div class="panel">
+        <p class="panel-intro">26&ndash;27 September &middot; Sovereignty Market with local farmers' produce and a GDA &amp; peasant seed fair.</p>
+        <div class="entry">
+          <div class="entry-time">Both days</div>
+          <div class="entry-body">
+            <h4>Sovereignty Market</h4>
+            <p>Local farmers' produce, alongside a GDA (agricultural development group) and peasant seed fair.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="entry-time">Stand</div>
+          <div class="entry-body">
+            <h4>Association Tunisienne de Permaculture</h4>
+            <p>Citizen Food stand.</p>
+          </div>
+        </div>
+        <div class="entry">
+          <div class="entry-time">Stand</div>
+          <div class="entry-body">
+            <h4>Shanti Projects</h4>
+            <p>Agricultural GDA.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- CONFERENCES, PANELS & DEMONSTRATIONS -->
+    <details name="prog">
+      <summary>
+        <span class="row-left">Conferences, Panels &amp; Demonstrations<span class="row-tag">25&ndash;27 Sep</span></span>
+        <span class="toggle"></span>
+      </summary>
+      <div class="panel">
+        <p class="panel-intro">Talks, policy sessions and live demonstrations running across all three days.</p>
+
+        <div class="day-block">
+          <p class="day-label">OPENING DAY - 25 SEPTEMBER</p>
+          <div class="entry">
+            <div class="entry-time">3:00 &ndash; 3:30pm</div>
+            <div class="entry-body"><h4>Welcome &amp; Opening Ceremony</h4></div>
+          </div>
+          <div class="entry">
+            <div class="entry-time">3:30 &ndash; 4:00pm</div>
+            <div class="entry-body">
+              <h4>Artistic Inauguration &amp; Biomaterials</h4>
+              <p>Unveiling of a sculpted wall mural depicting local flora, created from food-waste biomaterials by Collectif Cr&eacute;atif.</p>
+            </div>
+          </div>
+          <div class="entry">
+            <div class="entry-time">4:00pm</div>
+            <div class="entry-body">
+              <h4>Policy Session &amp; Debate</h4>
+              <p>Presentation of policy briefs with Mondher Kharrat, agroecology expert &mdash; on agroecological transition and financing mechanisms for food systems.</p>
+            </div>
+          </div>
+          <div class="entry">
+            <div class="entry-time">6:00pm</div>
+            <div class="entry-body">
+              <h4>Official Launch</h4>
+              <p>Festive presentation of the weekend programming.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <p class="day-label">SATURDAY - 26 SEPTEMBER</p>
+          <div class="entry">
+            <div class="entry-time">10:00 &ndash; 11:30am</div>
+            <div class="entry-body"><h4>Farmers' Seeds, an Asset for Food Sovereignty</h4></div>
+          </div>
+          <div class="entry">
+            <div class="entry-time">11:30am &ndash; 1:00pm</div>
+            <div class="entry-body"><h4>Regenerating Soils to Feed</h4></div>
+          </div>
+          <div class="entry">
+            <div class="entry-time">2:30 &ndash; 3:30pm</div>
+            <div class="entry-body"><h4>Tunisia's Food System: What Changes for Food Sovereignty?</h4></div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <p class="day-label">SUNDAY - 27 SEPTEMBER</p>
+          <div class="entry">
+            <div class="entry-time">10:00 &ndash; 11:00am</div>
+            <div class="entry-body">
+              <h4>Culinary Medicine</h4>
+              <p>Presentation by Michel Lucas, Universit&eacute; Laval, Canada.</p>
+            </div>
+          </div>
+          <div class="entry">
+            <div class="entry-time">11:45am &ndash; 1:15pm</div>
+            <div class="entry-body"><h4>Is Sustainable Gastronomy Possible?</h4></div>
+          </div>
+          <div class="entry">
+            <div class="entry-time">2:00 &ndash; 3:15pm</div>
+            <div class="entry-body"><h4>Soil Health, Human Health: One Health Tunisia</h4></div>
+          </div>
+          <div class="entry">
+            <div class="entry-time">10:00am &ndash; 12:00pm</div>
+            <div class="entry-body">
+              <h4>Blood Pressure / Blood Sugar Screening</h4>
+              <p>Free health screening space, R&eacute;seau Enfants Amis de la Terre Association.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- WORKSHOPS -->
+    <details name="prog">
+      <summary>
+        <span class="row-left">Workshops<span class="row-tag">26&ndash;27 Sep</span></span>
+        <span class="toggle"></span>
+      </summary>
+      <div class="panel">
+        <p class="panel-intro">Hands-on sessions &mdash; bread, seeds, and fermentation.</p>
+
+        <div class="day-block">
+          <p class="day-label">SATURDAY - 26 SEPTEMBER</p>
+          <div class="entry">
+            <div class="entry-time">1:00pm</div>
+            <div class="entry-body">
+              <h4>Sourdough Bread Making (Ftartchi)</h4>
+              <p>Held off-site at the Ftartchi kitchens.<span class="place">Rue &Eacute;n&eacute;e, Notre Dame district, Tunis</span></p>
+            </div>
+          </div>
+          <div class="entry">
+            <div class="entry-time">2:30pm</div>
+            <div class="entry-body">
+              <h4>Farmers' Seed Identification</h4>
+              <p>Led by the Association Tunisienne de Permaculture.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="day-block">
+          <p class="day-label">SUNDAY - 27 SEPTEMBER</p>
+          <div class="entry">
+            <div class="entry-time">1:00pm</div>
+            <div class="entry-body">
+              <h4>Fermentation Workshop</h4>
+              <p>Microbiome health through fermentation, led by Wahiba Ayari.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- SCREENING -->
+    <details name="prog">
+      <summary>
+        <span class="row-left">Screening<span class="row-tag">26&ndash;27 Sep</span></span>
+        <span class="toggle"></span>
+      </summary>
+      <div class="panel">
+        <p class="panel-intro">Continuous documentary film screenings &middot; 26&ndash;27 September, 10:00am &ndash; 6:00pm.</p>
+
+        <div class="film">
+          <h4>Seeds of Dignity</h4>
+          <p>In Lebanon's Bekaa Valley, farmers and seed activists are reclaiming food from corporate control, one heirloom seed at a time. A story of resistance, solidarity, and the fight for food sovereignty across the Arab world.</p>
+        </div>
+        <div class="film">
+          <h4>Amghar n'Tuga</h4>
+          <p>Follow Idir, the last "Lord of Pastures," as he leads his family and flocks across the High Atlas Mountains. A breathtaking journey into nomadic life, ancient traditions, and a way of living under threat.</p>
+        </div>
+        <div class="film">
+          <h4>Taghart</h4>
+          <p>Twice a month, when the tide falls to its lowest, the women of Morocco's Haha coast head out to harvest mussels. A vivid glimpse into their labor, knowledge, and daily struggle for the sea's resources.</p>
+        </div>
+        <div class="film">
+          <h4>Path to Sovereignty</h4>
+          <p>What does "food sovereignty" really mean? This short film traces colonialism's lasting grip on our region's agriculture and unpacks the policies that shape what we eat today.</p>
+        </div>
+
+      </div>
+    </details>
+
+  </div>
+
+  <footer>
+    <div class="social">
+      <a href="https://www.facebook.com/events/1752813935928085?locale=fr_FR" target="_blank" rel="noopener" aria-label="Facebook event">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5 3.66 9.15 8.44 9.94v-7.03H7.9v-2.91h2.54V9.85c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.44 2.91h-2.34V22c4.78-.79 8.44-4.94 8.44-9.94z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/nahj.el.collectif/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c2.72 0 3.06.01 4.12.06 1.06.05 1.79.22 2.43.47.66.26 1.21.6 1.76 1.15.5.5.9 1.1 1.15 1.76.25.64.42 1.37.47 2.43.05 1.06.06 1.4.06 4.13s-.01 3.07-.06 4.13c-.05 1.06-.22 1.79-.47 2.43a4.9 4.9 0 0 1-1.15 1.76c-.5.5-1.1.9-1.76 1.15-.64.25-1.37.42-2.43.47-1.06.05-1.4.06-4.12.06s-3.07-.01-4.13-.06c-1.06-.05-1.79-.22-2.43-.47a4.9 4.9 0 0 1-1.76-1.15 4.9 4.9 0 0 1-1.15-1.76c-.25-.64-.42-1.37-.47-2.43C2.01 15.07 2 14.73 2 12s.01-3.07.06-4.13c.05-1.06.22-1.79.47-2.43.26-.66.6-1.21 1.15-1.76A4.9 4.9 0 0 1 5.44 2.53c.64-.25 1.37-.42 2.43-.47C8.93 2.01 9.27 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-8.4a1.17 1.17 0 1 1 0-2.34 1.17 1.17 0 0 1 0 2.34z"/></svg>
+      </a>
+    </div>
+
+    <div class="logos">
+      <img class="tall" src="assets/logos/nahj.png" alt="Nahj el Collectif">
+      <img src="assets/logos/ftartchi.png" alt="Ftartchi">
+      <img src="assets/logos/shanti.png" alt="Shanti">
+      <img src="assets/logos/collectif-creatif.png" alt="Collectif Cr&eacute;atif">
+      <img class="tall" src="assets/logos/atp.png" alt="Association Tunisienne de Permaculture">
+      <img src="assets/logos/rosa.svg" alt="Rosa Luxemburg Foundation">
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // Fallback for browsers without native <details name> exclusivity.
+  document.querySelectorAll('details[name="prog"]').forEach(function(d){
+    d.addEventListener('toggle', function(){
+      if (d.open) {
+        document.querySelectorAll('details[name="prog"]').forEach(function(other){
+          if (other !== d) other.open = false;
+        });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
