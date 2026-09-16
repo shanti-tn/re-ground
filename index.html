@@ -7,7 +7,7 @@
 <link rel="icon" href="assets/star.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Cairo:wght@600;700&display=swap" rel="stylesheet">
 <style>
 
   @font-face{
@@ -18,7 +18,7 @@
   }
 
   :root{
-    --blue:       #9AD0F5;
+    --blue:       #9ACCF4;
     --blue-soft:  #B8E0FA;
     --blue-deep:  #6FB8ED;
     --purple:     #5A0FF3;
@@ -63,7 +63,41 @@
     text-align: center;
   }
 
+  .eyebrow{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: clamp(15px, 3vw, 19px);
+    letter-spacing: 0.01em;
+  }
+  .eyebrow-icon{
+    height: 11px;
+    width: auto;
+    display: block;
+  }
+
+  .eyebrow-ar{
+    margin: 6px 0 0;
+    color: #FFFFFF;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 600;
+    font-size: clamp(14px, 2.6vw, 17px);
+    opacity: 0.94;
+  }
+
+  .title-wrap{
+    position: relative;
+    display: inline-block;
+    margin: 30px auto 0;
+  }
+
   .title{
+    position: relative;
+    z-index: 1;
     font-family: 'OTR', monospace;
     font-weight: 400;
     font-size: clamp(46px, 11vw, 84px);
@@ -73,21 +107,25 @@
     letter-spacing: 0.005em;
   }
 
-  .mark{
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    background: #FFFFFF;
-    border-radius: 20px;
-    padding: 26px 40px 22px;
-    margin: 34px 0;
+  .title-arabic{
+    position: absolute;
+    z-index: 2;
+    height: clamp(50px, 12vw, 96px);
+    width: auto;
+    left: 54%;
+    top: 46%;
+    transform: translate(-28%, 0);
   }
-  .mark img{ display:block; }
-  .mark-icon{ height: 26px; width: auto; }
-  .mark-arabic{ height: 78px; width: auto; }
+
+  .fruits{
+    display: block;
+    margin: 36px auto 0;
+    width: min(100%, 480px);
+    height: auto;
+  }
 
   .meta-row{
+    margin-top: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -353,11 +391,13 @@
 <div class="wrap">
 
   <section class="hero">
-    <h1 class="title">RE-GROUND</h1>
-    <div class="mark">
-      <img class="mark-icon" src="assets/icon-seed.png" alt="">
-      <img class="mark-arabic" src="assets/arabic-tejneder.png" alt="Tejneder">
+    <p class="eyebrow">Seeds, Soil <img class="eyebrow-icon" src="assets/icon-seed.png" alt=""> Solidarity</p>
+    <p class="eyebrow-ar">بذور تربة وتضامن</p>
+    <div class="title-wrap">
+      <h1 class="title">RE-GROUND</h1>
+      <img class="title-arabic" src="assets/arabic-tejneder.png" alt="Tejneder">
     </div>
+    <img class="fruits" src="assets/fruits-row.png" alt="">
     <div class="meta-row">
       <span class="meta-dates">25&nbsp;-&nbsp;27 September</span>
       <span class="meta-star" aria-hidden="true"></span>
