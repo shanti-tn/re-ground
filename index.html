@@ -50,7 +50,6 @@
     color: var(--blue);
   }
 
-  /* language toggle handled by data-lang attribute on body */
   [data-lang="ar"]{
     font-family: 'Cairo', sans-serif;
   }
@@ -125,21 +124,22 @@
     z-index: 1;
     font-family: 'OTR', monospace;
     font-weight: 400;
-    font-size: clamp(56px, 14vw, 108px);
+    font-size: clamp(38px, 12vw, 100px);
     line-height: 0.92;
     color: #FFFFFF;
     margin: 0;
     letter-spacing: 0.005em;
+    white-space: nowrap;
   }
 
   .title-arabic{
     position: absolute;
     z-index: 2;
-    height: clamp(60px, 15vw, 122px);
+    height: clamp(50px, 16vw, 132px);
     width: auto;
     left: 54%;
-    top: 46%;
-    transform: translate(-28%, 0);
+    top: 42%;
+    transform: translate(-30%, 0);
   }
 
   .fruits{
@@ -149,15 +149,50 @@
     height: auto;
   }
 
-  .mobile-star{
+  /* mobile-only wandering star */
+  .star-stage{
     display: none;
-    width: 30px;
-    height: 30px;
-    margin: 26px auto 0;
-    background: url("assets/star.png") center / contain no-repeat;
+    position: relative;
+    height: 56px;
+    margin-top: 18px;
   }
   @media (max-width: 640px){
-    .mobile-star{ display: block; }
+    .star-stage{ display: block; }
+  }
+  .mobile-star{
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    left: 50%;
+    top: 50%;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.6);
+    animation: star-wander 16s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .mobile-star .spin{
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: url("assets/star.png") center / contain no-repeat;
+    animation: star-spin 6s linear infinite;
+  }
+  @keyframes star-spin{
+    to{ transform: rotate(360deg); }
+  }
+  @keyframes star-wander{
+    0%   { left: 50%; top: 40%; opacity: 0;   transform: translate(-50%, -50%) scale(.6); }
+    6%   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    22%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    30%  { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+    31%  { left: 18%; top: 65%; }
+    37%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    53%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    61%  { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+    62%  { left: 82%; top: 20%; }
+    68%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    84%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    92%, 100% { opacity: 0; left: 50%; top: 40%; transform: translate(-50%, -50%) scale(.6); }
   }
 
   /* ---------- INTRO ---------- */
@@ -198,22 +233,14 @@
   /* ---------- SECTION HEADING ---------- */
 
   .section-heading{
-    display: flex;
-    align-items: center;
-    gap: 12px;
     margin: 60px 0 22px;
-  }
-  .section-icon{
-    height: 24px;
-    width: auto;
-    flex-shrink: 0;
   }
   .section-title{
     font-family: 'OTR', monospace;
     font-weight: 400;
     font-size: clamp(24px, 5.5vw, 34px);
     letter-spacing: 0.01em;
-    color: var(--ink);
+    color: var(--red);
     margin: 0;
     text-transform: uppercase;
   }
@@ -229,14 +256,14 @@
   /* ---------- PROGRAM ---------- */
 
   .accordion{
-    border-top: 2px solid var(--ink);
+    border-top: 2px solid var(--red);
   }
   body[data-lang="ar"] .accordion{
     direction: rtl;
   }
 
   details{
-    border-bottom: 2px solid var(--ink);
+    border-bottom: 2px solid var(--red);
   }
 
   details[open] summary ~ *{
@@ -303,23 +330,31 @@
   .panel-intro[data-lang="ar"]{ line-height: 1.8; }
 
   .day-block + .day-block{
-    margin-top: 24px;
+    margin-top: 30px;
   }
 
   .day-label{
     font-size: 13px;
     letter-spacing: 0.06em;
     color: var(--red);
-    margin: 0 0 10px;
+    margin: 0 0 3px;
   }
   .day-label[data-lang="en"]{ font-family: 'OTR', monospace; }
   .day-label[data-lang="ar"]{ font-weight: 700; letter-spacing: 0; font-size: 14px; }
+
+  .day-theme{
+    font-size: 12.5px;
+    font-style: italic;
+    color: var(--ink-60);
+    margin: 0 0 12px;
+  }
+  .day-theme[data-lang="ar"]{ font-style: normal; }
 
   .entry{
     display: grid;
     grid-template-columns: 104px 1fr;
     gap: 14px;
-    padding: 11px 0;
+    padding: 13px 0;
     border-top: 1px solid var(--ink-30);
   }
   .entry:first-of-type{ border-top: none; }
@@ -340,7 +375,7 @@
   }
   .entry-body h4[data-lang="ar"]{ font-size: 15.5px; }
   .entry-body p{
-    margin: 0;
+    margin: 0 0 4px;
     font-size: 14px;
     line-height: 1.55;
     color: var(--ink-60);
@@ -352,6 +387,49 @@
     font-size: 12.5px;
     color: var(--ink-60);
     font-style: italic;
+  }
+
+  .session-meta{
+    font-size: 12px;
+    color: var(--ink-60);
+    margin: 2px 0 8px;
+    line-height: 1.6;
+  }
+  .session-meta b{ color: var(--purple); font-weight: 600; }
+  .session-meta[data-lang="ar"]{ line-height: 1.8; }
+
+  .speakers{
+    list-style: none;
+    margin: 4px 0 0;
+    padding: 0;
+  }
+  .speakers li{
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-60);
+    margin-bottom: 6px;
+    padding-left: 12px;
+    position: relative;
+  }
+  .speakers li::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--purple);
+  }
+  .speakers li b{ color: var(--ink); font-weight: 600; }
+  .speakers[data-lang="ar"] li{
+    padding-left: 0;
+    padding-right: 12px;
+    line-height: 1.8;
+  }
+  .speakers[data-lang="ar"] li::before{
+    left: auto;
+    right: 0;
   }
 
   .notice{
@@ -421,6 +499,17 @@
     color: var(--ink-60);
     margin: 12px 0 0;
   }
+
+  .organizer-line{
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-60);
+    line-height: 1.6;
+    max-width: 46ch;
+    margin: 40px auto 26px;
+  }
+  .organizer-line[data-lang="ar"]{ line-height: 1.8; }
+  body[data-lang="ar"] .organizer-line{ direction: rtl; }
 
   /* ---------- FOOTER ---------- */
 
@@ -493,7 +582,9 @@
       <img class="title-arabic" src="assets/arabic-tejneder.png" alt="Tejneder">
     </div>
     <img class="fruits" src="assets/fruits-row.png" alt="">
-    <div class="mobile-star" aria-hidden="true"></div>
+    <div class="star-stage" aria-hidden="true">
+      <div class="mobile-star"><span class="spin"></span></div>
+    </div>
   </section>
 
   <section class="intro">
@@ -508,12 +599,11 @@
 
     <p class="hero-location">
       <span data-lang="en">📍 Tunis &mdash; 44.46 Niger Street</span>
-      <span data-lang="ar" dir="rtl" lang="ar">📍 تونس - 44.46 نهج النيجر</span>
+      <span data-lang="ar" dir="rtl" lang="ar">📍 تونس، 44.46 نهج النيجر</span>
     </p>
   </section>
 
   <div class="section-heading">
-    <img class="section-icon" src="assets/icon-seed.png" alt="">
     <h2 class="section-title" data-lang="en">Full Program</h2>
     <h2 class="section-title" data-lang="ar" dir="rtl" lang="ar">البرنامج الكامل</h2>
   </div>
@@ -530,16 +620,16 @@
         <span class="toggle"></span>
       </summary>
       <div class="panel">
-        <p class="panel-intro" data-lang="en">26&ndash;27 September &middot; 10:00am &ndash; 6:00pm &mdash; Sovereignty Market with local farmers' produce and a peasant seed fair.</p>
-        <p class="panel-intro" data-lang="ar" dir="rtl" lang="ar">26 و27 سبتمبر · من 10:00 صباحًا إلى 6:00 مساءً — سوق السيادة الغذائية بمنتجات الفلاحين المحليين ومعرض للبذور الفلاحية.</p>
+        <p class="panel-intro" data-lang="en">26&ndash;27 September &middot; 10:00am &ndash; 6:00pm &mdash; Sovereignty Market with a farmers' seed fair and a local produce market.</p>
+        <p class="panel-intro" data-lang="ar" dir="rtl" lang="ar">26 و27 سبتمبر · من 10:00 صباحًا إلى 6:00 مساءً — سوق السيادة الغذائية، بمعرض للبذور الفلاحية وسوق للمنتجات المحلية.</p>
 
         <div class="entry">
           <div class="entry-time">10:00am &ndash; 6:00pm</div>
           <div class="entry-body">
             <h4 data-lang="en">Sovereignty Market</h4>
-            <h4 data-lang="ar" dir="rtl" lang="ar">سوق المنتجات المحلية</h4>
-            <p data-lang="en">Local farmers' produce alongside a peasant seed fair &mdash; with stands from Association Tunisienne de Permaculture (Citizen Food), Shanti Projects (agricultural GDA), and other local producers and associations.</p>
-            <p data-lang="ar" dir="rtl" lang="ar">منتجات الفلاحين المحليين إلى جانب معرض للبذور الفلاحية — مع أكشاك للجمعية التونسية للفلاحة البيئية (الغذاء للمواطنين)، ومشروع شانتي (GDA فلاحي)، ومنتجين وجمعيات محلية أخرى.</p>
+            <h4 data-lang="ar" dir="rtl" lang="ar">سوق السيادة الغذائية</h4>
+            <p data-lang="en">Farmers' Seed Fair and Local Produce Market, Saturday and Sunday &mdash; with stands from Shanti Projects (agricultural GDA) and Association Tunisienne de Permaculture / ATP (Citizen Food), and other local producers and associations.</p>
+            <p data-lang="ar" dir="rtl" lang="ar">معرض البذور الفلاحية وسوق المنتجات المحلية، السبت والأحد — مع أكشاك لمشروع شانتي (GDA فلاحي) والجمعية التونسية للفلاحة البيئية / ATP (الغذاء للمواطنين)، ومنتجين وجمعيات محلية أخرى.</p>
           </div>
         </div>
       </div>
@@ -558,84 +648,146 @@
         <p class="panel-intro" data-lang="en">Talks, policy sessions and live demonstrations running across all three days.</p>
         <p class="panel-intro" data-lang="ar" dir="rtl" lang="ar">محاضرات وجلسات سياسات وعروض حية على مدى الأيام الثلاثة.</p>
 
+        <!-- FRIDAY -->
         <div class="day-block">
-          <p class="day-label" data-lang="en">OPENING DAY - 25 SEPTEMBER</p>
-          <p class="day-label" data-lang="ar" dir="rtl" lang="ar">الجمعة - 25 سبتمبر</p>
+          <p class="day-label" data-lang="en">FRIDAY - 25 SEPTEMBER</p>
+          <p class="day-label" data-lang="ar" dir="rtl" lang="ar">الجمعة، 25 سبتمبر</p>
+          <p class="session-meta" data-lang="en"><b>Moderator:</b> Rim Mathlouthi &middot; <b>Audience:</b> public ministries, researchers, students and partners</p>
+          <p class="session-meta" data-lang="ar" dir="rtl" lang="ar"><b>تسيير الجلسات:</b> ريم المثلوثي &middot; <b>للجمهور:</b> الوزارات العمومية، الباحثون، الطلبة والشركاء</p>
 
           <div class="entry">
             <div class="entry-time">3:00 &ndash; 3:30pm</div>
             <div class="entry-body">
-              <h4 data-lang="en">Welcome &amp; Opening Ceremony</h4>
+              <h4 data-lang="en">Presentation of the Program</h4>
               <h4 data-lang="ar" dir="rtl" lang="ar">تقديم البرنامج</h4>
+              <p data-lang="en">By the Association Tunisienne de Permaculture (ATP) and the Rosa Luxemburg Foundation (RLS).</p>
+              <p data-lang="ar" dir="rtl" lang="ar">من طرف الجمعية التونسية للفلاحة البيئية ومؤسسة روزا لوكسمبورغ.</p>
             </div>
           </div>
           <div class="entry">
             <div class="entry-time">3:30 &ndash; 4:00pm</div>
             <div class="entry-body">
-              <h4 data-lang="en">Artistic Inauguration &amp; Biomaterials</h4>
+              <h4 data-lang="en">Upcycling Exhibition</h4>
               <h4 data-lang="ar" dir="rtl" lang="ar">تقديم معرض إعادة التدوير الإبداعي</h4>
-              <p data-lang="en">Unveiling of a sculpted wall mural depicting local flora, created from food-waste biomaterials by Collectif Cr&eacute;atif.</p>
+              <p data-lang="en">Unveiling of a sculpted wall mural depicting local flora, created from food-waste biomaterials &mdash; Collectif Cr&eacute;atif.</p>
               <p data-lang="ar" dir="rtl" lang="ar">الكشف عن جدارية منحوتة تصور النباتات المحلية، من صنع الجماعة الإبداعية (Collectif Cr&eacute;atif) باستخدام مواد حيوية من نفايات غذائية.</p>
             </div>
           </div>
           <div class="entry">
             <div class="entry-time">4:00pm</div>
             <div class="entry-body">
-              <h4 data-lang="en">Policy Session &amp; Debate</h4>
+              <h4 data-lang="en">Policy Brief &amp; Discussion</h4>
               <h4 data-lang="ar" dir="rtl" lang="ar">تقديم ونقاش: ورقة سياسات</h4>
-              <p data-lang="en">Presentation of policy briefs with Mondher Kharrat, agroecology expert &mdash; on agroecological transition and financing mechanisms for food systems.</p>
-              <p data-lang="ar" dir="rtl" lang="ar">التحول الإيكولوجي الفلاحي وآليات تمويل الأنظمة الغذائية في تونس، مع منذر خراط، خبير في علم البيئة الزراعية.</p>
+              <p data-lang="en">Agroecological transition and financing mechanisms for food systems in Tunisia. Speaker: Mondher Kharrat, agroecology expert.</p>
+              <p data-lang="ar" dir="rtl" lang="ar">التحول الإيكولوجي الفلاحي وآليات تمويل الأنظمة الغذائية في تونس. المتحدث: منذر خراط، خبير في علم البيئة الزراعية.</p>
             </div>
           </div>
           <div class="entry">
             <div class="entry-time">6:00pm</div>
             <div class="entry-body">
-              <h4 data-lang="en">Official Launch</h4>
+              <h4 data-lang="en">Event Launch</h4>
               <h4 data-lang="ar" dir="rtl" lang="ar">الانطلاق الرسمي للفعالية</h4>
-              <p data-lang="en">Festive presentation of the weekend programming.</p>
-              <p data-lang="ar" dir="rtl" lang="ar">تقديم احتفالي لبرنامج نهاية الأسبوع.</p>
             </div>
           </div>
         </div>
 
+        <!-- SATURDAY -->
         <div class="day-block">
           <p class="day-label" data-lang="en">SATURDAY - 26 SEPTEMBER</p>
-          <p class="day-label" data-lang="ar" dir="rtl" lang="ar">السبت - 26 سبتمبر</p>
+          <p class="day-label" data-lang="ar" dir="rtl" lang="ar">السبت، 26 سبتمبر</p>
+          <p class="day-theme" data-lang="en">Theme: Food and Agriculture</p>
+          <p class="day-theme" data-lang="ar" dir="rtl" lang="ar">محور: الغذاء والفلاحة</p>
 
           <div class="entry">
             <div class="entry-time">10:00 &ndash; 11:30am</div>
             <div class="entry-body">
               <h4 data-lang="en">Farmers' Seeds, an Asset for Food Sovereignty</h4>
               <h4 data-lang="ar" dir="rtl" lang="ar">البذور الفلاحية، مصلحة من أجل السيادة الغذائية</h4>
+              <p class="session-meta" data-lang="en"><b>Moderator:</b> Imen Louati &middot; <b>Audience:</b> researchers, students, consumers, doctors, nutritionists</p>
+              <p class="session-meta" data-lang="ar" dir="rtl" lang="ar"><b>تسيير الجلسات:</b> إيمان اللواتي &middot; <b>للجمهور:</b> الباحثون، الطلبة، المستهلكون، الأطباء، أخصائيو التغذية</p>
+              <ul class="speakers" data-lang="en">
+                <li><b>Amine Slim</b> &mdash; Tunisian teacher-researcher, National Gene Bank, Cereal Genetics and Improvement Laboratory (INAT)</li>
+                <li><b>Raya Ziadeh</b> &mdash; Palestinian program director, Rosa Luxemburg Foundation (Regional Office for Palestine and Jordan); co-founder of the "Mangala" agricultural initiative and the Palestinian Agroecology Forum</li>
+                <li><b>Yasser Souilmi</b> &mdash; Tunisian natural resource management engineer, researcher at the Arab Reform Initiative</li>
+                <li><b>Hadi Awada</b> &mdash; Lebanese farmer, member of the farmers' seed network of "Buzuruna Juzuruna," Lebanon</li>
+              </ul>
+              <ul class="speakers" data-lang="ar" dir="rtl" lang="ar">
+                <li><b>أمين السليم</b> &mdash; أستاذ باحث تونسي، البنك الوطني للجينات، مختبر علم الوراثة وتحسين الحبوب (INAT)</li>
+                <li><b>رايا زيادة</b> &mdash; مديرة برامج فلسطينية في مؤسسة روزا لوكسمبورغ، المكتب الإقليمي لفلسطين والأردن، وأحد مؤسسي مبادرة "مانجاال" الزراعية والمنتدى الفلسطيني للفلاحة البيئية</li>
+                <li><b>ياسر سويلمي</b> &mdash; مهندس تونسي في التصرف في الموارد الطبيعية وباحث في مبادرة الإصلاح العربي</li>
+                <li><b>هادي عواضة</b> &mdash; مزارع لبناني وعضو في شبكة البذور الريفية التابعة لمنظمة "بذورنا جذورنا"، لبنان</li>
+              </ul>
             </div>
           </div>
+
           <div class="entry">
             <div class="entry-time">11:30am &ndash; 1:00pm</div>
             <div class="entry-body">
               <h4 data-lang="en">Regenerating Soils to Feed</h4>
               <h4 data-lang="ar" dir="rtl" lang="ar">استعادة خصوبة التربة من أجل التغذية</h4>
+              <p class="session-meta" data-lang="en"><b>Moderator:</b> Rim Mathlouthi &middot; <b>Audience:</b> researchers, students, consumers, doctors, nutritionists</p>
+              <p class="session-meta" data-lang="ar" dir="rtl" lang="ar"><b>تسيير الجلسات:</b> ريم المثلوثي &middot; <b>للجمهور:</b> الباحثون، الطلبة، المستهلكون، الأطباء، أخصائيو التغذية</p>
+              <ul class="speakers" data-lang="en">
+                <li><b>Yafa Heni</b> &mdash; Head of Quality Management and Food Safety, SICAM Group; in charge of research and development for the Zero Pesticide Residue program</li>
+                <li><b>Kaouther Kouki</b> &mdash; General Engineer, Agricultural Investment Promotion Agency (APIA), Ministry of Agriculture</li>
+                <li><b>Edouard Jean</b> (RTTA) &mdash; Director, Les Amis de Capte Tunisie</li>
+                <li><b>Jihad El Malih</b> &mdash; Moroccan farmer and agroecology advisor, founder of the agroecological farm "Facyla," Morocco</li>
+              </ul>
+              <ul class="speakers" data-lang="ar" dir="rtl" lang="ar">
+                <li><b>يافع هيني</b> &mdash; مديرة إدارة جودة وسلامة الأغذية (الشركة الزراعية التابعة لمجموعة SICAM)، مسؤولة عن البحث والتطوير لبرنامج صفر بقايا مبيدات</li>
+                <li><b>كوثر كوكي</b> &mdash; مهندسة عامة، وكالة تشجيع الاستثمار الزراعي (APIA)، وزارة الزراعة</li>
+                <li><b>إدوار جون</b> (الشبكة التونسية للتحول الإيكولوجي الفلاحي) &mdash; مدير جمعية أصدقاء كاب تونس</li>
+                <li><b>جهاد المليح</b> &mdash; مزارع مغربي ومستشار في الفلاحة البيئية، صاحب المزرعة الفلاحية البيئية "فصيلة"، المغرب</li>
+              </ul>
             </div>
           </div>
+
           <div class="entry">
             <div class="entry-time">2:30 &ndash; 3:30pm</div>
             <div class="entry-body">
               <h4 data-lang="en">Tunisia's Food System: What Changes for Food Sovereignty?</h4>
               <h4 data-lang="ar" dir="rtl" lang="ar">النظام الغذائي التونسي: أي تغييرات من أجل سيادة غذائية؟</h4>
+              <p class="session-meta" data-lang="en"><b>Moderator:</b> Rim Mathlouthi &middot; <b>Audience:</b> researchers, students, consumers, doctors, nutritionists</p>
+              <p class="session-meta" data-lang="ar" dir="rtl" lang="ar"><b>تسيير الجلسات:</b> ريم المثلوثي &middot; <b>للجمهور:</b> الباحثون، الطلبة، المستهلكون، الأطباء، أخصائيو التغذية</p>
+              <ul class="speakers" data-lang="en">
+                <li><b>Sihem Dabbabi Missaoui</b> &mdash; anthropologist, State Doctorate in Medieval Civilization (Islamic World)</li>
+                <li><b>Amel Benammar Elga&iuml;d</b> &mdash; Doctor of Science, professor of immunology, Tunis El Manar University</li>
+                <li><b>Yosra Chaibi</b> &mdash; President of the Unobio Union, member of the Tunisian Network for Agroecological Transition</li>
+              </ul>
+              <ul class="speakers" data-lang="ar" dir="rtl" lang="ar">
+                <li><b>سهام الدبابي مصعاوي</b> &mdash; أنثروبولوجية، دكتورة دولة في الحضارة الوسيطة (العالم الإسلامي)</li>
+                <li><b>أمل بن عمار القعيد</b> &mdash; دكتورة في العلوم، أستاذة في علم المناعة بجامعة تونس المنار</li>
+                <li><b>يسرى الشايبي</b> &mdash; رئيسة نقابة أونوبيو (Unobio)، عضوة الشبكة التونسية للتحول الإيكولوجي الفلاحي</li>
+              </ul>
             </div>
           </div>
         </div>
 
+        <!-- SUNDAY -->
         <div class="day-block">
           <p class="day-label" data-lang="en">SUNDAY - 27 SEPTEMBER</p>
-          <p class="day-label" data-lang="ar" dir="rtl" lang="ar">الأحد - 27 سبتمبر</p>
+          <p class="day-label" data-lang="ar" dir="rtl" lang="ar">الأحد، 27 سبتمبر</p>
+          <p class="day-theme" data-lang="en">Theme: Health and Food &middot; Audience: general public</p>
+          <p class="day-theme" data-lang="ar" dir="rtl" lang="ar">محور: الصحة والغذاء · الجمهور: عموم الناس</p>
+          <p class="session-meta" data-lang="en"><b>Moderator:</b> Rim Mathlouthi</p>
+          <p class="session-meta" data-lang="ar" dir="rtl" lang="ar"><b>تسيير الجلسات:</b> ريم المثلوثي</p>
 
           <div class="entry">
             <div class="entry-time">10:00 &ndash; 11:00am</div>
             <div class="entry-body">
               <h4 data-lang="en">Culinary Medicine</h4>
               <h4 data-lang="ar" dir="rtl" lang="ar">عرض: الطب الطهي</h4>
-              <p data-lang="en">Presentation by Michel Lucas, Universit&eacute; Laval, Canada.</p>
-              <p data-lang="ar" dir="rtl" lang="ar">تقديم: ميشال لوكا، جامعة الفال، كندا.</p>
+              <p data-lang="en">Michel Lucas, Universit&eacute; Laval, Canada. Culinary medicine combines medical and nutritional knowledge with culinary art to empower people to act through and with food.</p>
+              <p data-lang="ar" dir="rtl" lang="ar">ميشال لوكا، جامعة الفال، كندا. يجمع الطب الطهي بين المعارف الطبية والتغذوية وفن الطهي لتمكين الأفراد من الفعل عبر الغذاء ومعه.</p>
+            </div>
+          </div>
+          <div class="entry">
+            <div class="entry-time">11:00 &ndash; 11:30am</div>
+            <div class="entry-body">
+              <h4 data-lang="en">Olive Oil Tasting</h4>
+              <h4 data-lang="ar" dir="rtl" lang="ar">تذوق زيت الزيتون</h4>
+              <p data-lang="en">Tasting and presentation of the nutritional qualities of olive oil. Dr. Imen Oueslati, Associate Professor, Head of the Specialized Research Support and Technology Transfer Unit, Borj Cedria Biotechnology Center.</p>
+              <p data-lang="ar" dir="rtl" lang="ar">تذوق زيت الزيتون وعرض صفاته الغذائية. د. إيمن الوسلاتي، أستاذة محاضرة، رئيسة الوحدة المتخصصة لدعم الأبحاث ونقل التكنولوجيا بمركز برج السدرية للتكنولوجيا الحيوية.</p>
             </div>
           </div>
           <div class="entry">
@@ -643,6 +795,16 @@
             <div class="entry-body">
               <h4 data-lang="en">Is Sustainable Gastronomy Possible?</h4>
               <h4 data-lang="ar" dir="rtl" lang="ar">هل فن الطهو المستدام ممكن؟</h4>
+              <ul class="speakers" data-lang="en">
+                <li><b>Chef Dali</b> &mdash; chef, Tunisia</li>
+                <li><b>Yasmina Sallem</b> &mdash; chef, Algeria</li>
+                <li><b>Lamia Temimi</b> &mdash; Sawa Taste, Tunisia</li>
+              </ul>
+              <ul class="speakers" data-lang="ar" dir="rtl" lang="ar">
+                <li><b>الشيف دالي</b> &mdash; طاهٍ، تونس</li>
+                <li><b>ياسمينة سالم</b> &mdash; طاهية، الجزائر</li>
+                <li><b>لمياء التميمي</b> &mdash; سوا تيست، تونس</li>
+              </ul>
             </div>
           </div>
           <div class="entry">
@@ -650,15 +812,16 @@
             <div class="entry-body">
               <h4 data-lang="en">Soil Health, Human Health: One Health Tunisia</h4>
               <h4 data-lang="ar" dir="rtl" lang="ar">صحة الأرض، صحة الإنسان: صحة واحدة تونس</h4>
-            </div>
-          </div>
-          <div class="entry">
-            <div class="entry-time">10:00am &ndash; 12:00pm</div>
-            <div class="entry-body">
-              <h4 data-lang="en">Blood Pressure / Blood Sugar Screening</h4>
-              <h4 data-lang="ar" dir="rtl" lang="ar">فحص ضغط الدم ونسبة السكر</h4>
-              <p data-lang="en">Free health screening space, R&eacute;seau Enfants Amis de la Terre Association.</p>
-              <p data-lang="ar" dir="rtl" lang="ar">فضاء فحص صحي مجاني، بالشراكة مع شبكة أصدقاء الأرض للأطفال.</p>
+              <ul class="speakers" data-lang="en">
+                <li><b>Dr. Mediha Khamassi</b> &mdash; associate professor of veterinary medicine, coordinator of the One Health master's program</li>
+                <li><b>Roua Tlili</b> &mdash; physician, consultant in Sustainable Nutrition, R&eacute;seau Enfants Amis de la Terre</li>
+                <li><b>Samia Gharbi</b> &mdash; specialist in marine ecotoxicology and environmental science; founder of the Association for Environmental Education for Future Generations; Goldman Environmental Prize</li>
+              </ul>
+              <ul class="speakers" data-lang="ar" dir="rtl" lang="ar">
+                <li><b>د. مديحة خماسي</b> &mdash; أستاذة مشاركة في الطب البيطري، منسقة درجة الماجستير في الصحة الواحدة</li>
+                <li><b>رؤى التليلي</b> &mdash; طبيبة استشارية في التغذية المستدامة، شبكة أصدقاء الأرض للأطفال</li>
+                <li><b>سامية غربي</b> &mdash; متخصصة في علم السموم البيئية البحرية وعلوم البيئة، مؤسسة جمعية التربية البيئية لأجيال المستقبل، حائزة جائزة جولدمان للبيئة</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -676,12 +839,12 @@
         <span class="toggle"></span>
       </summary>
       <div class="panel">
-        <p class="panel-intro" data-lang="en">Hands-on sessions &mdash; bread, seeds, and fermentation.</p>
-        <p class="panel-intro" data-lang="ar" dir="rtl" lang="ar">ورشات تطبيقية — الخبز، البذور، والتخمير.</p>
+        <p class="panel-intro" data-lang="en">Hands-on sessions &mdash; bread, seeds, fermentation, and a free health screening.</p>
+        <p class="panel-intro" data-lang="ar" dir="rtl" lang="ar">ورشات تطبيقية — الخبز، البذور، التخمير، وفضاء فحص صحي مجاني.</p>
 
         <div class="day-block">
           <p class="day-label" data-lang="en">SATURDAY - 26 SEPTEMBER</p>
-          <p class="day-label" data-lang="ar" dir="rtl" lang="ar">السبت - 26 سبتمبر</p>
+          <p class="day-label" data-lang="ar" dir="rtl" lang="ar">السبت، 26 سبتمبر</p>
 
           <div class="entry">
             <div class="entry-time">1:00pm</div>
@@ -705,7 +868,7 @@
             <div class="entry-body">
               <h4 data-lang="en">Farmers' Seed Identification</h4>
               <h4 data-lang="ar" dir="rtl" lang="ar">تقديم ببذور الفلاحين</h4>
-              <p data-lang="en">Led by the Association Tunisienne de Permaculture.</p>
+              <p data-lang="en">Led by the Association Tunisienne de Permaculture (ATP).</p>
               <p data-lang="ar" dir="rtl" lang="ar">بإشراف الجمعية التونسية للفلاحة البيئية (ATP).</p>
             </div>
           </div>
@@ -713,7 +876,7 @@
 
         <div class="day-block">
           <p class="day-label" data-lang="en">SUNDAY - 27 SEPTEMBER</p>
-          <p class="day-label" data-lang="ar" dir="rtl" lang="ar">الأحد - 27 سبتمبر</p>
+          <p class="day-label" data-lang="ar" dir="rtl" lang="ar">الأحد، 27 سبتمبر</p>
 
           <div class="entry">
             <div class="entry-time">1:00pm</div>
@@ -722,6 +885,15 @@
               <h4 data-lang="ar" dir="rtl" lang="ar">ورشة التخمير</h4>
               <p data-lang="en">Microbiome health through fermentation, led by Wahiba Ayari.</p>
               <p data-lang="ar" dir="rtl" lang="ar">صحة الميكروبيوم عبر التخمير، بإشراف وهيبة عياري.</p>
+            </div>
+          </div>
+          <div class="entry">
+            <div class="entry-time">10:00am &ndash; 12:00pm</div>
+            <div class="entry-body">
+              <h4 data-lang="en">Blood Pressure / Blood Sugar Screening</h4>
+              <h4 data-lang="ar" dir="rtl" lang="ar">فحص ضغط الدم ونسبة السكر</h4>
+              <p data-lang="en">Free health screening, Nwasser Workshop Space &mdash; R&eacute;seau Enfants Amis de la Terre Association.</p>
+              <p data-lang="ar" dir="rtl" lang="ar">فضاء فحص صحي مجاني، بفضاء Nwasser Workshop Space — شبكة أصدقاء الأرض للأطفال.</p>
             </div>
           </div>
         </div>
@@ -786,6 +958,21 @@
       <span data-lang="ar" dir="rtl" lang="ar">تابعوا الفعالية على مواقع التواصل الاجتماعي</span>
     </p>
 
+    <div class="map-section">
+      <div class="map-frame">
+        <iframe src="https://www.google.com/maps?q=SHANTI,44+Rue+du+Niger,Tunis&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Event location map"></iframe>
+      </div>
+      <p class="map-caption">
+        <span data-lang="en">44.46 Niger Street, Tunis &mdash; Shanti association</span>
+        <span data-lang="ar" dir="rtl" lang="ar">44.46 نهج النيجر، تونس — جمعية شانتي</span>
+      </p>
+    </div>
+
+    <p class="organizer-line">
+      <span data-lang="en">Organized by the Nahj el Collectif network of associations, in collaboration with the Rosa Luxemburg Stiftung.</span>
+      <span data-lang="ar" dir="rtl" lang="ar">فعالية من تنظيم شبكة جمعيات نهج الكوليكتيف، بالتعاون مع مؤسسة روزا لوكسمبورغ.</span>
+    </p>
+
     <div class="logos">
       <img class="tall" src="assets/logos/nahj.png" alt="Nahj el Collectif">
       <img src="assets/logos/ftartchi.png" alt="Ftartchi">
@@ -793,16 +980,6 @@
       <img src="assets/logos/collectif-creatif.png" alt="Collectif Cr&eacute;atif">
       <img class="tall" src="assets/logos/atp.png" alt="Association Tunisienne de Permaculture">
       <img src="assets/logos/rosa.svg" alt="Rosa Luxemburg Foundation">
-    </div>
-
-    <div class="map-section">
-      <div class="map-frame">
-        <iframe src="https://www.google.com/maps?q=44.46+Niger+Street,+Tunis,+Tunisia&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Event location map"></iframe>
-      </div>
-      <p class="map-caption">
-        <span data-lang="en">44.46 Niger Street, Tunis</span>
-        <span data-lang="ar" dir="rtl" lang="ar">44.46 نهج النيجر، تونس</span>
-      </p>
     </div>
   </footer>
 
