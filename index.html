@@ -146,26 +146,7 @@
     display: block;
     margin: clamp(64px, 13vw, 100px) auto 0;
     width: min(100%, 600px);
-    aspect-ratio: 900 / 198;
-    -webkit-mask-image: url("assets/fruits-row.png");
-    mask-image: url("assets/fruits-row.png");
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
-    background-image: repeating-linear-gradient(90deg,
-      #FFFFFF 0%, #FFFFFF 11.11%,
-      var(--red) 11.11%, var(--red) 22.22%,
-      var(--purple) 22.22%, var(--purple) 33.33%
-    );
-    background-size: 300% 100%;
-    animation: fruit-sweep 9s linear infinite;
-  }
-  @keyframes fruit-sweep{
-    from{ background-position: 0% 0; }
-    to{ background-position: -33.333% 0; }
+    height: auto;
   }
 
   /* mobile-only wandering star */
@@ -499,6 +480,14 @@
 
   .map-section{
     margin-top: 60px;
+    margin-bottom: 40px;
+  }
+  .map-intro{
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--purple);
+    margin: 0 0 16px;
   }
   .map-frame{
     border-radius: 16px;
@@ -604,7 +593,7 @@
       <h1 class="title">RE-GROUND</h1>
       <img class="title-arabic" src="assets/arabic-tejneder.png" alt="Tejneder">
     </div>
-    <div class="fruits" aria-hidden="true"></div>
+    <img class="fruits" src="assets/fruits-row.png" alt="">
     <div class="star-stage" aria-hidden="true">
       <div class="mobile-star"><span class="spin"></span></div>
     </div>
@@ -964,6 +953,10 @@
 
   <footer>
     <div class="map-section">
+      <p class="map-intro">
+        <span data-lang="en">See you there! :)</span>
+        <span data-lang="ar" dir="rtl" lang="ar">نراكم هناك! :)</span>
+      </p>
       <div class="map-frame">
         <iframe src="https://www.google.com/maps?q=SHANTI,44+Rue+du+Niger,Tunis&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Event location map"></iframe>
       </div>
